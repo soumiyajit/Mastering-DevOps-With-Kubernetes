@@ -1,0 +1,11 @@
+version: "3"
+services:
+  application-1:
+    image: nginx
+    ports: 
+      - "8081:80"
+  application-2:
+    image: nginx
+    ports: 
+      - "8082:80"
+    
