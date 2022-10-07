@@ -25,11 +25,11 @@ spec:
             - name: PROVISIONER_NAME
               value: bpb.com/nfs
             - name: NFS_SERVER
-              value: 192.168.1.11
+              value: 192.168.1.22
             - name: NFS_PATH
               value: /srv/nfs
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 192.168.1.11
+            server: 192.168.1.22
             path: /srv/nfs

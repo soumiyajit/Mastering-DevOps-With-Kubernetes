@@ -6,7 +6,7 @@ spec:
   volumes:
   - name: nfs-volume
     persistentVolumeClaim:
-      claimName: pvc1
+      claimName: pvc-2
   containers:
   - image: nginx
     name: nginx
