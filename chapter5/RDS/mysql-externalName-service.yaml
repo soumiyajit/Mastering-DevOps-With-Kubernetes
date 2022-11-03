@@ -4,4 +4,4 @@ metadata:
   name: mysql
 spec:
   type: ExternalName
-  externalName: <Provide the endpoint for the RDS created>
+  externalName: myrdsdb.cwvzjfwidwfg.us-east-1.rds.amazonaws.com
