@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gke-cloud-sql-quickstart
+spec:
+  selector:
+    matchLabels:
+      app: gke-cloud-sql-app
+  template:
+    metadata:
+      labels:
+        app: gke-cloud-sql-app
+    spec:
+      serviceAccountName: k8s-sa
+      containers:
+      - name: gke-cloud-sql-app
+        image: europe-west1-docker.pkg.dev/gke-mastering-devops/gke-cloud-sql-repo/gke-sql:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: INSTANCE_HOST
+          value: "127.0.0.1"
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: demo1-sql-secret
+              key: username
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: demo1-sql-secret
+              key: password
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: demo1-sql-secret
+              key: database
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:latest
+        command:
+          - "/cloud_sql_proxy"
+          - "-instances=gke-mastering-devops:europe-west1:demo1-mysql=tcp:3306"
+        securityContext:
+          runAsNonRoot: true
