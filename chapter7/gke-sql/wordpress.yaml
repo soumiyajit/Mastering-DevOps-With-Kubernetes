@@ -14,10 +14,9 @@ spec:
         app: wordpress
         tier: frontend
     spec:
-      serviceAccountName: k8s-sa
       containers:
         - name: wordpress
-          image: wordpress:4.8-apache
+          image: wordpress:4.9-apache
           ports:
           - containerPort: 80
             name: wordpress
@@ -26,30 +25,17 @@ spec:
               mountPath: /var/www/html
           env:
             - name: WORDPRESS_DB_HOST
-              value: "127.0.0.1"
+              value: 10.44.80.4
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: demo1-sql-secret
-                  key: password
+                  name: mysql-password
+                  key: MYSQL_ROOT_PASSWORD
             - name: WORDPRESS_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: demo1-sql-secret
-                  key: username
+              value: root
             - name: WORDPRESS_DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: demo1-sql-secret
-                  key: database
-        - name: cloud-sql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:latest
-          command:
-            - "/cloud_sql_proxy"
-            - "-instances=gke-mastering-devops:europe-west1:demo1-mysql=tcp:3306"
-          securityContext:
-            runAsNonRoot: true
+              value: wordpress
       volumes:
         - name: wordpress-data
           persistentVolumeClaim:
-            claimName: aks-mysql-pv-claim
+            claimName: gke-mysql-pv-claim
