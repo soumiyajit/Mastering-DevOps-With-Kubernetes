@@ -38,4 +38,4 @@ spec:
       volumes:
         - name: wordpress-data
           persistentVolumeClaim:
-            claimName: aks-mysql-pv-claim
+            claimName: gke-mysql-pv-claim
