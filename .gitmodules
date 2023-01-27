@@ -1,0 +1,3 @@
+[submodule "chapter7/chapter7/terraform-provision-gke-cluster"]
+	path = chapter7/chapter7/terraform-provision-gke-cluster
+	url = https://github.com/soumiyajit/Mastering-DevOps-With-Kubernetes
