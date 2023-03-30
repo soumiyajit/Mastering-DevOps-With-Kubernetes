@@ -1,0 +1,151 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ism-app
+  labels:
+    app: ism-app
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: ism-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ism-app-v1
+spec:
+  selector:
+    matchLabels:
+      app: ism-app
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ism-app
+        version: v1
+    spec:
+      containers:
+      - name: ism-app
+        image: soumiyajit/ism-app-v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ism-app-v2
+spec:
+  selector:
+    matchLabels:
+      app: ism-app
+      version: v2
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ism-app
+        version: v2
+    spec:
+      containers:
+      - name: ism-app
+        image: soumiyajit/ism-app-v2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ism-app-backend
+  labels:
+    app: ism-app-backend
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: ism-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ism-app-backend-v1
+spec:
+  selector:
+    matchLabels:
+      app: ism-app
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ism-app
+        version: v1
+    spec:
+      containers:
+      - name: ism-app
+        image: soumiyajit/ism-app-backend-v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
