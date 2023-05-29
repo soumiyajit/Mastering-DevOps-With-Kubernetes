@@ -1,6 +1,6 @@
 FROM alpine
 
-LABEL description-This is a test Dockerfile.
+LABEL description="This is a test Dockerfile."
 
 RUN apk add --update nodejs npm
 RUN npm install -g http-server
